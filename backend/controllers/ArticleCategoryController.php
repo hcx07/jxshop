@@ -3,13 +3,21 @@
 namespace backend\controllers;
 
 use backend\models\ArticleCategory;
+use yii\data\Pagination;
 
 class ArticleCategoryController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $model=ArticleCategory::find()->all();
-        return $this->render('index',['model'=>$model]);
+        $query=ArticleCategory::find();
+        $total=$query->count();
+        $page=new Pagination([
+            'totalCount'=>$total,
+            'defaultPageSize'=>3,
+        ]);
+        $model=$query->offset($page->offset)->limit($page->limit)->orderBy(['id'=>SORT_DESC])->all();
+//        $model=ArticleCategory::find()->all();
+        return $this->render('index',['model'=>$model,'page'=>$page]);
     }
     public function actionAdd(){
         $model=new ArticleCategory();

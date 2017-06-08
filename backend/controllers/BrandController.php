@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Brand;
+use yii\data\Pagination;
 use yii\web\Request;
 use yii\web\UploadedFile;
 
@@ -10,8 +11,15 @@ class BrandController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $brand=Brand::find()->all();
-        return $this->render('index',['brand'=>$brand]);
+        $query=Brand::find();
+        $total=$query->count();
+        $page=new Pagination([
+            'totalCount'=>$total,
+            'defaultPageSize'=>3,
+        ]);
+        $brand=$query->offset($page->offset)->limit($page->limit)->orderBy(['id'=>SORT_DESC])->all();
+//        $model=ArticleCategory::find()->all();
+        return $this->render('index',['brand'=>$brand,'page'=>$page]);
     }
     public function actionAdd(){
         $model=new Brand();

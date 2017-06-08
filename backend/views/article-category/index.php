@@ -27,3 +27,7 @@
         </tr>
     <?php endforeach;?>
 </table>
+<?= \backend\models\GoLinkPager::widget([
+    'pagination' => $page,
+    'go' => true,
+]); ?>
