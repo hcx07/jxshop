@@ -1,4 +1,4 @@
-Yii 2 Advanced Project Template
+京西商城 NB版
 ===============================
 
 Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
