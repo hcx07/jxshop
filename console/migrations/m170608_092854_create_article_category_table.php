@@ -19,7 +19,7 @@ class m170608_092854_create_article_category_table extends Migration
 //intro text 简介
             'intro'=>$this->text()->comment('简介'),
 //sort int﴾11﴿ 排序
-            'sort'=>$this->integer(11)->defaultValue(998)->comment('排序号'),
+            'sort'=>$this->integer(11)->comment('排序号'),
 //status int﴾2﴿ 状态﴾‐1删除 0隐藏 1正常﴿
             'status'=>$this->integer(2)->comment('状态'),
 //is_help int﴾1﴿ 类型
