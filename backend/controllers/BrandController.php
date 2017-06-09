@@ -7,6 +7,7 @@ use yii\data\Pagination;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
+use crazyfd\qiniu\Qiniu;
 
 class BrandController extends \yii\web\Controller
 {
@@ -26,18 +27,14 @@ class BrandController extends \yii\web\Controller
         $model=new Brand();
         $model->status=0;
         if($model->load(\Yii::$app->request->post())){
-//            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
+            $yunlogo=\Yii::$app->request->post()['yunlogo'];
             if($model->validate()){
-//                if($model->imgFile){
-//                    $filename='/images/brand/'.uniqid().'.'.$model->imgFile->extension;
-//                    $model->imgFile->saveAs(\Yii::getAlias('@webroot').$filename,false);
-//                    $model->logo =$filename;
-////                    var_dump($filename);exit;
-//                }
-//                var_dump($model->logo);exit;
+                $model->yunlogo=$yunlogo;
                 $model->save();
-                \Yii::$app->session->setFlash('品牌添加成功！');
+                \Yii::$app->session->setFlash('success','品牌添加成功！');
                 return $this->redirect(['brand/index']);
+            }else{
+                var_dump($model->getFirstErrors());exit;
             }
         }
         return $this->render('add',['model'=>$model]);
@@ -45,18 +42,14 @@ class BrandController extends \yii\web\Controller
     public function actionEdit($id){
         $model=Brand::findOne(['id'=>$id]);
         if($model->load(\Yii::$app->request->post())){
-//            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
+            $yunlogo=\Yii::$app->request->post()['yunlogo'];
             if($model->validate()){
-//                if($model->imgFile){
-//                    $filename='/images/brand/'.uniqid().'.'.$model->imgFile->extension;
-//                    $model->imgFile->saveAs(\Yii::getAlias('@webroot').$filename,false);
-//                    $model->logo =$filename;
-////                    var_dump($filename);exit;
-//                }
-//                var_dump($model->logo);exit;
+                $yunlogo!=null?$model->yunlogo=$yunlogo:'';
                 $model->save();
-                \Yii::$app->session->setFlash('品牌修改成功！');
+                \Yii::$app->session->setFlash('success','品牌修改成功！');
                 return $this->redirect(['brand/index']);
+            }else{
+                var_dump($model->getFirstErrors());exit;
             }
         }
         return $this->render('add',['model'=>$model]);
@@ -81,11 +74,6 @@ class BrandController extends \yii\web\Controller
                 //END METHOD
                 //BEGIN CLOSURE BY-HASH
                 'overwriteIfExist' => true,
-//                'format' => function (UploadAction $action) {
-//                    $fileext = $action->uploadfile->getExtension();
-//                    $filename = sha1_file($action->uploadfile->tempName);
-//                    return "{$filename}.{$fileext}";
-//                },
                 //END CLOSURE BY-HASH
                 //BEGIN CLOSURE BY TIME
                 'format' => function (UploadAction $action) {
@@ -97,7 +85,7 @@ class BrandController extends \yii\web\Controller
                 },
                 //END CLOSURE BY TIME
                 'validateOptions' => [
-                    'extensions' => ['gif','jpg', 'png','bmp'],
+                    'extensions' => ['jpg', 'png'],
                     'maxSize' => 1 * 1024 * 1024, //file size
                 ],
                 'beforeValidate' => function (UploadAction $action) {
@@ -106,10 +94,24 @@ class BrandController extends \yii\web\Controller
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
+                    //上传图片到七牛云以及本地服务器
+                    $ak = 'zt7cYHq5mPq7-UAM8zr7losB03xUBQsOC15KYgKA';
+                    $sk = 'h04GEOs7cwKVoA0SjZ5GLF_pT1-QPUjq-qunCUpz';
+                    $domain = 'http://or9qoslna.bkt.clouddn.com/';
+                    $bucket = 'jxshop';
+                    $qiniu = new Qiniu($ak, $sk,$domain, $bucket);
+                    $imgurl=$action->getWebUrl();
+//                    var_dump($imgurl);exit;
+                    $img=\Yii::getAlias('@webroot').$imgurl;
+//        $fileName = \Yii::getAlias('@webroot').'/upload/test.png';
+                    $qiniu->uploadFile($img,$imgurl);
+                    //获取图片在七牛云的地址
+                    $url = $qiniu->getLink($imgurl);
+                    $action->output['fileUrl_yun'] = $url;
                     $action->output['fileUrl'] = $action->getWebUrl();
-                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
-                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
-                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
+//                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
+//                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
+//                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
                 },
             ],
         ];

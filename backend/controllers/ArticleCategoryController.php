@@ -26,8 +26,10 @@ class ArticleCategoryController extends \yii\web\Controller
         if($model->load(\Yii::$app->request->post())){
             if($model->validate()){
                 $model->save();
-                \Yii::$app->session->setFlash('添加成功！');
+                \Yii::$app->session->setFlash('success','添加成功！');
                 return $this->redirect(['article-category/index']);
+            }else{
+                var_dump($model->getFirstErrors());exit;
             }
         }
         return $this->render('add',['model'=>$model]);
@@ -35,9 +37,13 @@ class ArticleCategoryController extends \yii\web\Controller
     public function actionEdit($id){
         $model=ArticleCategory::findOne(['id'=>$id]);
         if($model->load(\Yii::$app->request->post())){
-            $model->save();
-            \Yii::$app->session->setFlash('修改成功！');
-            return $this->redirect(['article-category/index']);
+            if($model->validate()){
+                $model->save();
+                \Yii::$app->session->setFlash('success','修改成功！');
+                return $this->redirect(['article-category/index']);
+            }else{
+                var_dump($model->getFirstErrors());exit;
+            }
         }
         return $this->render('add',['model'=>$model]);
     }

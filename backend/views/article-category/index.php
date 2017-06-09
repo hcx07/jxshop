@@ -2,7 +2,7 @@
 <table class="table">
     <tr>
         <th>ID</th>
-        <th>文章分类名名</th>
+        <th>文章分类名</th>
         <th>简介</th>
         <th>排序</th>
         <th>状态</th>

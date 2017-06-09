@@ -35,7 +35,7 @@ class Brand extends \yii\db\ActiveRecord
             [['intro'], 'string'],
             [['sort', 'status'], 'integer'],
             [['name'], 'string', 'max' => 50],
-            [['logo'], 'string', 'max' => 255],
+            [['logo','yunlogo'], 'string', 'max' => 255],
 //            [['imgFile'], 'file', 'extensions'=>['jpg','png','gif']],
         ];
     }
@@ -53,6 +53,7 @@ class Brand extends \yii\db\ActiveRecord
             'sort' => '排序号',
             'status' => '状态',
             'imgFile' => 'LOGO',
+            'yunlogo' => '',
         ];
     }
 }

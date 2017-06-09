@@ -14,7 +14,7 @@
             <td><?=$brands->id?></td>
             <td><?=$brands->name?></td>
             <td><?=$brands->intro?></td>
-            <td><?=\yii\bootstrap\Html::img($brands->logo,['width'=>35])?></td>
+            <td><?=\yii\bootstrap\Html::img($brands->yunlogo,['width'=>35])?></td>
             <td><?=$brands->sort?></td>
             <td><?php if($brands->status==-1){
                     echo '删除';
