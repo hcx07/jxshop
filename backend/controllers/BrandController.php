@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Brand;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
@@ -113,6 +114,22 @@ class BrandController extends \yii\web\Controller
 //                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
 //                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
                 },
+            ],
+        ];
+    }
+    //权限管理，只有登陆了才能操作
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ];
     }

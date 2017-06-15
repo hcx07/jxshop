@@ -2,47 +2,9 @@
 //var_dump($model->logo);exit;
 $form=\yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name');
-echo $form->field($model,'logo')->hiddenInput();
-//echo $form->field($model,'yunlogo')->hiddenInput();
-echo \yii\bootstrap\Html::input('hidden','yunlogo');
-echo \yii\helpers\Html::fileInput('test', NULL, ['id' => 'test']);
-echo \xj\uploadify\Uploadify::widget([
-    'url' => yii\helpers\Url::to(['s-upload']),
-    'id' => 'test',
-    'csrf' => true,
-    'renderTag' => false,
-    'jsOptions' => [
-        'width' => 90,
-        'height' => 30,
-        'onUploadError' => new \yii\web\JsExpression(<<<EOF
-function(file, errorCode, errorMsg, errorString) {
-    console.log('The file ' + file.name + ' could not be uploaded: ' + errorString + errorCode + errorMsg);
-}
-EOF
-        ),
-        'onUploadSuccess' => new \yii\web\JsExpression(<<<EOF
-function(file, data, response) {
-    data = JSON.parse(data);
-    if (data.error) {
-        console.log(data.msg);
-    } else {
-        console.log(data.fileUrl);
-        console.log(data.fileUrl_yun);
-        
-        //将上传成功后的图片地址(data.fileUrl)写入img标签
-        $("#img_logo").attr("src",data.fileUrl).show();
-        //将上传成功后的图片地址(data.fileUrl)写入logo字段
-        $("#goods-logo").val(data.fileUrl);
-        $("input[name=yunlogo]").val(data.fileUrl_yun);
-    }
-}
-EOF
-        ),
-    ]
-]);
-
+echo $form->field($model,'logo_file')->fileInput();
 if($model->logo){
-    echo \yii\helpers\Html::img('@web'.$model->logo,['height'=>'50','id'=>'img_logo']);
+    echo \yii\helpers\Html::img('@web/'.$model->logo,['height'=>'50','id'=>'img_logo']);
 }else{
     echo \yii\helpers\Html::img('',['style'=>'display:none','id'=>'img_logo','height'=>'50']);
 }

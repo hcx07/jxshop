@@ -26,6 +26,7 @@ class Goods extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $logo_file;
     public static function tableName()
     {
         return 'goods';
@@ -42,6 +43,7 @@ class Goods extends \yii\db\ActiveRecord
             [['market_price', 'shop_price'], 'number'],
             [['name', 'sn'], 'string', 'max' => 20],
             [['logo'], 'string', 'max' => 255],
+            [['logo_file'], 'file','extensions'=>['jpg','png','gif']],
         ];
     }
 
@@ -64,6 +66,7 @@ class Goods extends \yii\db\ActiveRecord
             'status' => '状态',
             'sort' => '排序',
             'create_time' => '添加时间',
+            'logo_file' => 'logo',
         ];
     }
     public function getBrand()
@@ -78,4 +81,9 @@ class Goods extends \yii\db\ActiveRecord
     {
         return $this->hasOne(GoodsIntro::className(), ['goods_id' => 'id']);
     }
+    public function getGoodsImg()
+    {
+        return $this->hasMany(GoodsImg::className(), ['goods_id' => 'id']);
+    }
+
 }

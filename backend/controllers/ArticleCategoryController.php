@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\ArticleCategory;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 
 class ArticleCategoryController extends \yii\web\Controller
 {
@@ -53,5 +54,21 @@ class ArticleCategoryController extends \yii\web\Controller
         $model->save();
 //        var_dump($model);exit;
         return $this->redirect(['article-category/index']);
+    }
+    //权限管理，只有登陆了才能操作
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 }

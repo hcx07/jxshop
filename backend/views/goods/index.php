@@ -3,7 +3,7 @@
 
 <div style="float:right;"><?php
     $form=\yii\bootstrap\ActiveForm::begin();
-    echo \yii\bootstrap\Html::input('text','key','关键字');
+    echo \yii\bootstrap\Html::input('text','key');
         \yii\bootstrap\ActiveForm::end();?></div>
 <br/><br/>
 <table class="table">
@@ -29,7 +29,7 @@
             <td><?=$goods->id?></td>
             <td><?=$goods->name?></td>
             <td><?=$goods->sn?></td>
-            <td><?=\yii\bootstrap\Html::img($goods->logo,['width'=>35])?></td>
+            <td><?=\yii\bootstrap\Html::img('@web/'.$goods->logo,['width'=>35])?></td>
             <td><?=$goods->goodsCategory->name?></td>
             <td><?=$goods->brand->name?></td>
             <td><?=$goods->market_price?></td>
@@ -40,7 +40,7 @@
             <td><?=$goods->sort?></td>
             <td><?=date('Y-m-d H:i:s',$goods->create_time);?></td>
             <td><?=\backend\components\Helper::truncate_utf8_string($goods->goodsIntro->content,10)?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$goods->id],['class'=>'btn btn-info btn-xs'])?> <?=\yii\bootstrap\Html::a('删除',['goods/del','id'=>$goods->id],['class'=>'btn btn-warning btn-xs'])?></td>
+            <td><?=\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$goods->id],['class'=>'btn btn-info btn-xs'])?> <?=\yii\bootstrap\Html::a('删除',['goods/del','id'=>$goods->id],['class'=>'btn btn-warning btn-xs'])?> <?=\yii\bootstrap\Html::a('商品图片',['goods/img','id'=>$goods->id],['class'=>'btn btn-success btn-xs'])?></td>
         </tr>
     <?php endforeach;?>
 </table>

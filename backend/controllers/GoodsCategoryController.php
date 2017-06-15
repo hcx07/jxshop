@@ -3,6 +3,7 @@
 namespace backend\controllers;
 use backend\models\GoodsCategory;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
@@ -65,6 +66,22 @@ class GoodsCategoryController extends \yii\web\Controller
         }
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0]],GoodsCategory::find()->asArray()->all());
         return $this->render('add',['model'=>$model,'categories'=>$categories]);
+    }
+    //权限管理，只有登陆了才能操作
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 
 }
