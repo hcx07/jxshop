@@ -181,20 +181,5 @@ class GoodsController extends Controller
             return 'fail';
         }
     }
-    //权限管理，只有登陆了才能操作
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
+
 }

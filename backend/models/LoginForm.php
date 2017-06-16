@@ -49,16 +49,25 @@ class LoginForm extends Model
         }
     }
 
-    //登陆验证
-    public function login()
-    {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-        } else {
-            return false;
+    public function login(){
+        //1 根据用户名查找用户
+        $admin = AdminUser::findOne(['username'=>$this->username]);
+        if($admin){
+            //2 验证密码
+            if(\Yii::$app->security->validatePassword($this->password,$admin->password_hash)){
+                //3 登录
+                //自动登录
+                $duration = $this->rememberMe?7*24*3600:0;
+                \Yii::$app->user->login($admin,$duration);
+                return true;
+            }else{
+                $this->addError('password','密码不正确');
+            }
+        }else{
+            $this->addError('username','用户名不存在');
         }
+        return false;
     }
-
     //得到用户名
     protected function getUser()
     {

@@ -1,0 +1,124 @@
+<?php
+namespace console\controllers;
+
+use yii\console\Controller;
+
+class RbacController extends Controller {
+    public function actionInit(){
+        $auth=\Yii::$app->authManager;
+        //品牌管理
+        $editBrand=$auth->createPermission('editBrand');
+        $editBrand->description='修改品牌';
+        $auth->add($editBrand);
+        $addBrand=$auth->createPermission('addBrand');
+        $addBrand->description='添加品牌';
+        $auth->add($addBrand);
+        $delBrand=$auth->createPermission('delBrand');
+        $delBrand->description='删除品牌';
+        $auth->add($delBrand);
+        //创建品牌管理员并分配权限
+        $brand=$auth->createRole('brand');
+        $brand->description='品牌管理员';
+        $auth->add($brand);
+        $auth->addChild($brand,$editBrand);
+        $auth->addChild($brand,$addBrand);
+        $auth->addChild($brand,$delBrand);
+        
+        //文章管理
+        $editArticle=$auth->createPermission('editArticle');
+        $editArticle->description='修改文章';
+        $auth->add($editArticle);
+        $addArticle=$auth->createPermission('addArticle');
+        $addArticle->description='添加文章';
+        $auth->add($addArticle);
+        $delArticle=$auth->createPermission('delArticle');
+        $delArticle->description='删除文章';
+        $auth->add($delArticle);
+        //创建文章管理员并分配权限
+        $article=$auth->createRole('article');
+        $article->description='文章管理员';
+        $auth->add($article);
+        $auth->addChild($article,$editArticle);
+        $auth->addChild($article,$addArticle);
+        $auth->addChild($article,$delArticle);
+
+        //文章分类管理
+        $editAcate=$auth->createPermission('editAcate');
+        $editAcate->description='修改文章分类';
+        $auth->add($editAcate);
+        $addAcate=$auth->createPermission('addAcate');
+        $addAcate->description='添加文章分类';
+        $auth->add($addAcate);
+        $delAcate=$auth->createPermission('delAcate');
+        $delAcate->description='删除文章分类';
+        $auth->add($delAcate);
+        //创建文章分类管理员并分配权限
+        $Acate=$auth->createRole('Acate');
+        $Acate->description='文章分类管理员';
+        $auth->add($Acate);
+        $auth->addChild($Acate,$editAcate);
+        $auth->addChild($Acate,$addAcate);
+        $auth->addChild($Acate,$delAcate);
+
+        //商品分类管理
+        $editGcate=$auth->createPermission('editGcate');
+        $editGcate->description='修改商品分类';
+        $auth->add($editGcate);
+        $addGcate=$auth->createPermission('addGcate');
+        $addGcate->description='添加商品分类';
+        $auth->add($addGcate);
+        $delGcate=$auth->createPermission('delGcate');
+        $delGcate->description='删除商品分类';
+        $auth->add($delGcate);
+        //创建商品分类管理员并分配权限
+        $Gcate=$auth->createRole('Gcate');
+        $Gcate->description='商品分类管理员';
+        $auth->add($Gcate);
+        $auth->addChild($Gcate,$editGcate);
+        $auth->addChild($Gcate,$addGcate);
+        $auth->addChild($Gcate,$delGcate);
+
+        //商品管理
+        $editGoods=$auth->createPermission('editGoods');
+        $editGoods->description='修改商品';
+        $auth->add($editGoods);
+        $addGoods=$auth->createPermission('addGoods');
+        $addGoods->description='添加商品';
+        $auth->add($addGoods);
+        $delGoods=$auth->createPermission('delGoods');
+        $delGoods->description='删除商品';
+        $auth->add($delGoods);
+        //创建商品管理员并分配权限
+        $Goods=$auth->createRole('Goods');
+        $Goods->description='商品管理员';
+        $auth->add($Goods);
+        $auth->addChild($Goods,$editGoods);
+        $auth->addChild($Goods,$addGoods);
+        $auth->addChild($Goods,$delGoods);
+
+        //管理员管理
+        $editAdmin=$auth->createPermission('editAdmin');
+        $editAdmin->description='修改管理员';
+        $auth->add($editAdmin);
+        $addAdmin=$auth->createPermission('addAdmin');
+        $addAdmin->description='添加管理员';
+        $auth->add($addAdmin);
+        $delAdmin=$auth->createPermission('delAdmin');
+        $delAdmin->description='删除管理员';
+        $auth->add($delAdmin);
+        //超管
+        $admin=$auth->createRole('admin');
+        $admin->description='超级管理员';
+        $auth->add($admin);
+        $auth->addChild($admin,$editAdmin);
+        $auth->addChild($admin,$addAdmin);
+        $auth->addChild($admin,$delAdmin);
+        $auth->addChild($admin,$brand);
+        $auth->addChild($admin,$article);
+        $auth->addChild($admin,$Acate);
+        $auth->addChild($admin,$Gcate);
+        $auth->addChild($admin,$Goods);
+        //将超管权限分配给id为1的管理员
+        $auth->assign($admin,1);
+    }
+}

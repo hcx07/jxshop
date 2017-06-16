@@ -6,23 +6,9 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
-/**
- * This is the model class for table "admin_user".
- *
- * @property integer $id
- * @property string $username
- * @property string $auth_key
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $last_login
- * @property string $last_ip
- */
 class AdminUser extends ActiveRecord implements IdentityInterface
 {
     /**
@@ -32,6 +18,7 @@ class AdminUser extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
     public $password;
     public $re_password;
+    public $role;
     public static function tableName()
     {
         return 'admin_user';
@@ -60,6 +47,7 @@ class AdminUser extends ActiveRecord implements IdentityInterface
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['re_password'],'compare','compareAttribute'=>'password'],
+            [['role'],'safe'],
         ];
     }
 
@@ -82,6 +70,7 @@ class AdminUser extends ActiveRecord implements IdentityInterface
             'last_ip' => 'Last Ip',
             'password' => '密码',
             're_password' => '确认密码',
+            'role' => '角色',
         ];
     }
     /**
@@ -213,5 +202,25 @@ class AdminUser extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+    public static function getRoleOptions(){
+        return ArrayHelper::map(\Yii::$app->authManager->getRoles(),'name','name');
+    }
+    public function updateRole($model,$id){
+        $authManager = \Yii::$app->authManager;
+        //找到该用户的所有权限
+        $authManager->getRolesByUser($id);
+        //如果用户有角色则执行下面的步骤
+        if($model->role){
+            //去掉该用户所有的角色然后再重新添加
+            $res=$authManager->revokeAll($id);
+            foreach ($model->role as $roleName){
+                $role= $authManager->getRole($roleName);
+                if($role){
+                    $authManager->assign($role,$id);
+                }
+            }
+        }
+        return true;
     }
 }

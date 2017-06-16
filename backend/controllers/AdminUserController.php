@@ -2,9 +2,12 @@
 
 namespace backend\controllers;
 
+use backend\components\Helper;
 use backend\models\AdminUser;
+use backend\models\RoleForm;
 use backend\models\SignupForm;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 class AdminUserController extends \yii\web\Controller
 {
@@ -54,21 +57,22 @@ class AdminUserController extends \yii\web\Controller
         $model->delete();
         return $this->redirect(['admin-user/index']);
     }
-    //权限管理，只有登陆了才能操作
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
 
+    //将角色和用户关联
+    public function actionRole($id){
+        $model = AdminUser::findOne(['id'=>$id]);
+        $username=$model->username;
+        //已有的角色默认选中  当$model->role中有role值的时候便自动选中
+        $roles =\Yii::$app->authManager->getRolesByUser($id);
+        foreach ($roles as $role){
+            $model->role[] = $role->name;
+        }
+        if ($model->load(\Yii::$app->request->post())) {
+            if($model->updateRole($model,$id)){
+                \Yii::$app->session->setFlash('修改权限成功');
+                return $this->redirect('index');
+            }
+        }
+        return $this->render('role', ['model' => $model,'username'=>$username]);
+    }
 }

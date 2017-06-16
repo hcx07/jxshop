@@ -5,10 +5,13 @@ namespace backend\controllers;
 use backend\models\Brand;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
 use crazyfd\qiniu\Qiniu;
+use yii\web\User;
 
 class BrandController extends \yii\web\Controller
 {
@@ -21,10 +24,13 @@ class BrandController extends \yii\web\Controller
             'defaultPageSize'=>3,
         ]);
         $brand=$query->offset($page->offset)->limit($page->limit)->orderBy(['id'=>SORT_DESC])->all();
-//        $model=ArticleCategory::find()->all();
         return $this->render('index',['brand'=>$brand,'page'=>$page]);
     }
+
     public function actionAdd(){
+        if (!\Yii::$app->user->can('brand_add')) {
+            throw new ForbiddenHttpException('对不起，权限不足');
+        }
         $model=new Brand();
         $model->status=0;
         if($model->load(\Yii::$app->request->post())){
@@ -41,6 +47,9 @@ class BrandController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
     public function actionEdit($id){
+        if (!\Yii::$app->user->can('brand_edit')) {
+            throw new ForbiddenHttpException('对不起，权限不足');
+        }
         $model=Brand::findOne(['id'=>$id]);
         if($model->load(\Yii::$app->request->post())){
             $yunlogo=\Yii::$app->request->post()['yunlogo'];
@@ -56,6 +65,9 @@ class BrandController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
     public function actionDel($id){
+        if (!\Yii::$app->user->can('brand_del')) {
+            throw new ForbiddenHttpException('对不起，权限不足');
+        }
         $model=Brand::findOne(['id'=>$id]);
         $model->status=-1;
         $model->save();
@@ -117,20 +129,14 @@ class BrandController extends \yii\web\Controller
             ],
         ];
     }
-    //权限管理，只有登陆了才能操作
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => [],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
+//    public function beforeAction($action) {
+//        if (parent::beforeAction($action)) {
+//            if (!\Yii::$app->user->can('brand_add')) {
+//                throw new ForbiddenHttpException('对不起，您现在还没获此操作的权限');
+//            }
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }

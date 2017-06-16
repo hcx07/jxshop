@@ -61,13 +61,12 @@ class AdminController extends Controller
         }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            \Yii::$app->session->setFlash('success','登录成功');
             return $this->redirect(['admin/index']);
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('login',['model'=>$model]);
     }
+
     //注销
     public function actionLogout()
     {
