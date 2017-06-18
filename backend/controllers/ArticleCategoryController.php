@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-class ArticleCategoryController extends \yii\web\Controller
+class ArticleCategoryController extends BackendController
 {
     public function actionIndex()
     {

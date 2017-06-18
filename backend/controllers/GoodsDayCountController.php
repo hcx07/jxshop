@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use yii\filters\AccessControl;
 
-class GoodsDayCountController extends \yii\web\Controller
+class GoodsDayCountController extends BackendController
 {
     public function actionIndex()
     {

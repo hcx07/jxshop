@@ -8,7 +8,7 @@ use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 
-class ArticleController extends \yii\web\Controller
+class ArticleController extends BackendController
 {
     public function actionIndex()
     {
@@ -24,9 +24,6 @@ class ArticleController extends \yii\web\Controller
         return $this->render('index',['model'=>$model,'page'=>$page]);
     }
     public function actionAdd(){
-        if (!\Yii::$app->user->can('article_add')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=new Article();
         $detail=new ArticleDetail();
         $model->status=0;
@@ -47,9 +44,6 @@ class ArticleController extends \yii\web\Controller
         return $this->render('add',['model'=>$model,'detail'=>$detail]);
     }
     public function actionEdit($id){
-        if (!\Yii::$app->user->can('article_Eedit')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=Article::findOne(['id'=>$id]);
         $detail=ArticleDetail::findOne(['article_id'=>$id]);
         if($model->load(\Yii::$app->request->post())&&$detail->load(\Yii::$app->request->post())){
@@ -69,9 +63,6 @@ class ArticleController extends \yii\web\Controller
         return $this->render('add',['model'=>$model,'detail'=>$detail]);
     }
     public function actionDel($id){
-        if (!\Yii::$app->user->can('article_del')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=Article::findOne(['id'=>$id]);
         $model->status=-1;
         $model->save();

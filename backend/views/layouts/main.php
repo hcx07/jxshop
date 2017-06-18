@@ -27,39 +27,44 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => '京西商城',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => '品牌管理', 'url' => ['/brand/index']],
-        ['label' => '文章分类', 'url' => ['/article-category/index']],
-        ['label' => '文章管理', 'url' => ['/article/index']],
-        ['label' => '商品分类', 'url' => ['/goods-category/index']],
-        ['label' => '商品管理', 'url' => ['/goods/index']],
-        ['label' => '管理员', 'url' => ['/admin-user/index']],
-        ['label' => '权限管理', 'url' => ['/rbac/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/admin/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
+    echo \backend\widgets\MenuWidget::widget();
+//    NavBar::begin([
+//        'brandLabel' => '京西商城',
+//        'brandUrl' => Yii::$app->homeUrl,
+//        'options' => [
+//            'class' => 'navbar-inverse navbar-fixed-top',
+//        ],
+//    ]);
+//    $menuItems = [
+//        ['label' => '品牌管理', 'url' => ['/brand/index']],
+//        ['label' => '文章分类', 'url' => ['/article-category/index']],
+//        ['label' => '文章管理', 'url' => ['/article/index']],
+//        ['label' => '商品分类', 'url' => ['/goods-category/index']],
+//        ['label' => '商品管理', 'url' => ['/goods/index']],
+//        ['label' => '管理员', 'url' => ['/admin-user/index']],
+//        ['label' => '权限管理', 'items'=>[
+//            ['label' => '权限管理', 'url' => ['/rbac/permission-index']],
+//            ['label' => '角色管理', 'url' => ['/rbac/role-index']]
+//            ]
+//        ],
+//    ];
+//    if (Yii::$app->user->isGuest) {
+//        $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
+//    } else {
+//        $menuItems[] = '<li>'
+//            . Html::beginForm(['/admin/logout'], 'post')
+//            . Html::submitButton(
+//                'Logout (' . Yii::$app->user->identity->username . ')',
+//                ['class' => 'btn btn-link logout']
+//            )
+//            . Html::endForm()
+//            . '</li>';
+//    }
+//    echo Nav::widget([
+//        'options' => ['class' => 'navbar-nav navbar-right'],
+//        'items' => $menuItems,
+//    ]);
+//    NavBar::end();
     ?>
 
     <div class="container">

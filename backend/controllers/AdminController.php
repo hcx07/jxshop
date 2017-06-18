@@ -70,7 +70,7 @@ class AdminController extends Controller
     //注销
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        \Yii::$app->user->logout();
+        return $this->redirect(['admin/login']);
     }
 }

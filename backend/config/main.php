@@ -18,9 +18,10 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'backend\models\AdminUser',
+            'identityClass' => \backend\models\AdminUser::className(),
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'loginUrl'=>['admin/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend

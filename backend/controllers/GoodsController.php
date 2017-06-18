@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
-class GoodsController extends Controller
+class GoodsController extends BackendController
 {
     public function actionIndex()
     {

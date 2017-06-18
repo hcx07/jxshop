@@ -6,10 +6,8 @@ use backend\models\RoleForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class RbacController extends Controller{
-    public function actionIndex(){
-        return $this->render('index');
-    }
+class RbacController extends BackendController {
+
     //权限列表
     public function actionPermissionIndex(){
         $models=\Yii::$app->authManager->getPermissions();

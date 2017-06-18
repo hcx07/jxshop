@@ -13,7 +13,7 @@ use xj\uploadify\UploadAction;
 use crazyfd\qiniu\Qiniu;
 use yii\web\User;
 
-class BrandController extends \yii\web\Controller
+class BrandController extends BackendController
 {
     public function actionIndex()
     {
@@ -28,9 +28,6 @@ class BrandController extends \yii\web\Controller
     }
 
     public function actionAdd(){
-        if (!\Yii::$app->user->can('brand_add')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=new Brand();
         $model->status=0;
         if($model->load(\Yii::$app->request->post())){
@@ -47,9 +44,6 @@ class BrandController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
     public function actionEdit($id){
-        if (!\Yii::$app->user->can('brand_edit')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=Brand::findOne(['id'=>$id]);
         if($model->load(\Yii::$app->request->post())){
             $yunlogo=\Yii::$app->request->post()['yunlogo'];
@@ -65,9 +59,6 @@ class BrandController extends \yii\web\Controller
         return $this->render('add',['model'=>$model]);
     }
     public function actionDel($id){
-        if (!\Yii::$app->user->can('brand_del')) {
-            throw new ForbiddenHttpException('对不起，权限不足');
-        }
         $model=Brand::findOne(['id'=>$id]);
         $model->status=-1;
         $model->save();
@@ -129,14 +120,4 @@ class BrandController extends \yii\web\Controller
             ],
         ];
     }
-//    public function beforeAction($action) {
-//        if (parent::beforeAction($action)) {
-//            if (!\Yii::$app->user->can('brand_add')) {
-//                throw new ForbiddenHttpException('对不起，您现在还没获此操作的权限');
-//            }
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 }
