@@ -41,9 +41,13 @@ class Locations extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => '地址',
             'parent_id' => 'Parent ID',
             'level' => 'Level',
         ];
     }
+//    public function getLocations()
+//    {
+//        return $this->hasMany(Locations::className(), ['id' => 'parent_id']);
+//    }
 }

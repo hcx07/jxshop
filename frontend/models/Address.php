@@ -30,12 +30,11 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'integer'],
+            [['user_id','default'], 'integer'],
             [['name', 'address', 'tel'], 'required'],
             [['name'], 'string', 'max' => 10],
             [['address'], 'string', 'max' => 50],
             [['tel'], 'string', 'max' => 20],
-            [['detail'], 'string', 'max' => 30],
         ];
     }
 
@@ -51,9 +50,7 @@ class Address extends \yii\db\ActiveRecord
             'address' => '地址',
             'tel' => '电话',
             'detail' => '详细地址',
+            'default' => '设为默认地址',
         ];
-    }
-    public function getLocations(){
-        return $this->hasMany(Locations::className(),['id'=>'address']);
     }
 }

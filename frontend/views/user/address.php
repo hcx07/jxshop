@@ -45,13 +45,13 @@
 					</dt>
 					<dd>
 						<div class="prompt">
-							您好，请<a href="">登录</a>
+							您好，请<a href="login.html">登录</a>
 						</div>
 						<div class="uclist mt10">
 							<ul class="list1 fl">
 								<li><a href="">用户信息></a></li>
 								<li><a href="">我的订单></a></li>
-								<li><a href="">收货地址></a></li>
+								<li><a href="address.html">收货地址></a></li>
 								<li><a href="">我的收藏></a></li>
 							</ul>
 
@@ -67,9 +67,9 @@
 						<div class="viewlist mt10">
 							<h3>最近浏览的商品：</h3>
 							<ul>
-								<li><a href=""><img src="images/view_list1.jpg" alt="" /></a></li>
-								<li><a href=""><img src="images/view_list2.jpg" alt="" /></a></li>
-								<li><a href=""><img src="images/view_list3.jpg" alt="" /></a></li>
+								<li><a href=""><?=\yii\helpers\Html::img('@web/images/view_list1.jpg')?></a></li>
+								<li><a href=""><?=\yii\helpers\Html::img('@web/images/view_list2.jpg')?></a></li>
+								<li><a href=""><?=\yii\helpers\Html::img('@web/images/view_list3.jpg')?></a></li>
 							</ul>
 						</div>
 					</dd>
@@ -434,22 +434,18 @@
 		<div class="content fl ml10">
 			<div class="address_hd">
 				<h3>收货地址薄</h3>
-				<dl>
-					<dt>1.许坤 北京市 昌平区 仙人跳区 仙人跳大街 17002810530 </dt>
-					<dd>
-						<a href="">修改</a>
-						<a href="">删除</a>
-						<a href="">设为默认地址</a>
-					</dd>
-				</dl>
-				<dl class="last"> <!-- 最后一个dl 加类last -->
-					<dt>2.许坤 四川省 成都市 高新区 仙人跳大街 17002810530 </dt>
-					<dd>
-						<a href="">修改</a>
-						<a href="">删除</a>
-						<a href="">设为默认地址</a>
-					</dd>
-				</dl>
+                <?php $i=1;
+//                var_dump($model_all);exit;
+                foreach ($model_all as $re):?>
+                    <dl>
+                        <dt><?php
+//                            var_dump($re);exit;
+                            echo $i.'.'.$re->name.' '.$re->address.' '.$re->tel?></dt>
+                        <dd>
+                            <?=\yii\bootstrap\Html::a('修改',['adderssedit','id'=>$re->id],['class'=>'btn btn-info btn-xs'])?> <?=\yii\bootstrap\Html::a('删除',['adderssdel','id'=>$re->id],['class'=>'btn btn-warning btn-xs'])?> <?=\yii\bootstrap\Html::a($re->default==1?'默认地址':'设为默认地址',['adderssdefault','id'=>$re->id],['class'=>'btn btn-warning btn-xs'])?>
+                        </dd>
+                    </dl>
+                <?php $i++;endforeach;?>
 
 			</div>
 
@@ -465,67 +461,25 @@
                 );
                 echo '<ul>';
                 echo $form->field($model,'name')->textInput(['class'=>'txt']);
-                echo $form->field($model,'address')->dropDownList(\frontend\models\Locations::find()->select(['name','id'])->indexBy('id')->column(),['prompt'=>'请选择省份']);
-                echo $form->field($model,'detail')->textInput(['class'=>'txt']);
+                echo $form->field($dizhi,'name')->dropDownList($province,['id'=>'province','prompt'=>'选择省份','class' => 'form-control form-control-inline'])->label('省份');
+                echo $form->field($dizhi,'name')->dropDownList(['0'=>'请选择'],['id'=>'city','prompt'=>'选择城市','inline'=>true,'class' => 'form-control form-control-inline'])->label('城市');
+                echo $form->field($dizhi,'name')->dropDownList(['prompt'=>'请选择区县'],['id'=>'area','prompt'=>'选择区县','inline'=>true,'class' => 'form-control form-control-inline'])->label('区县');
+                echo $form->field($model,'address')->textInput(['class'=>'txt address']);
                 echo $form->field($model,'tel')->textInput(['class'=>'txt']);
+//                echo $form->field($model,'default')->checkbox(['class'=>'check']);
                 echo '<li>
-                     <label for="">&nbsp;</label>
-                      <input type="submit" value="" class="login_btn" />
-                  </li>';
+								<label for="">&nbsp;</label>
+								<input type="checkbox" name="default" class="check" value="1"/>设为默认地址
+							</li>
+';
+                echo '<li>
+                        <label for="">&nbsp;</label>
+                        <input type="submit" name="" class="btn" value="保存" />
+                    </li>';
                 echo '</ul>';
                 \yii\widgets\ActiveForm::end();
                 ?>
-<!--				<form action="" name="address_form">-->
-<!--						<ul>-->
-<!--							<li>-->
-<!--								<label for=""><span>*</span>收 货 人：</label>-->
-<!--								<input type="text" name="" class="txt" />-->
-<!--							</li>-->
-<!--							<li>-->
-<!--								<label for=""><span>*</span>所在地区：</label>-->
-<!--								<select name="" id="">-->
-<!--									<option value="">请选择</option>-->
-<!--									<option value="">北京</option>-->
-<!--									<option value="">上海</option>-->
-<!--									<option value="">天津</option>-->
-<!--									<option value="">重庆</option>-->
-<!--									<option value="">武汉</option>-->
-<!--								</select>-->
-<!---->
-<!--								<select name="" id="">-->
-<!--									<option value="">请选择</option>-->
-<!--									<option value="">朝阳区</option>-->
-<!--									<option value="">东城区</option>-->
-<!--									<option value="">西城区</option>-->
-<!--									<option value="">海淀区</option>-->
-<!--									<option value="">昌平区</option>-->
-<!--								</select>-->
-<!---->
-<!--								<select name="" id="">-->
-<!--									<option value="">请选择</option>-->
-<!--									<option value="">西二旗</option>-->
-<!--									<option value="">西三旗</option>-->
-<!--									<option value="">三环以内</option>-->
-<!--								</select>-->
-<!--							</li>-->
-<!--							<li>-->
-<!--								<label for=""><span>*</span>详细地址：</label>-->
-<!--								<input type="text" name="" class="txt address"  />-->
-<!--							</li>-->
-<!--							<li>-->
-<!--								<label for=""><span>*</span>手机号码：</label>-->
-<!--								<input type="text" name="" class="txt" />-->
-<!--							</li>-->
-<!--							<li>-->
-<!--								<label for="">&nbsp;</label>-->
-<!--								<input type="checkbox" name="" class="check" />设为默认地址-->
-<!--							</li>-->
-<!--							<li>-->
-<!--								<label for="">&nbsp;</label>-->
-<!--								<input type="submit" name="" class="btn" value="保存" />-->
-<!--							</li>-->
-<!--						</ul>-->
-<!--					</form>-->
+
 			</div>	
 
 		</div>
@@ -596,8 +550,41 @@
 			</ul>
 		</div>
 	</div>
-	<!-- 底部导航 end -->
-
-
+<!--	 底部导航 end -->
 </body>
 </html>
+    <?php
+    $js = new \yii\web\JsExpression(
+        <<<JS
+    $('#province').on('change',function(){
+        var data = {pid:$('#province  option:selected').val()};
+        $('#city option:not(:first)').remove();
+        $('#area option:not(:first)').remove();
+        $.getJSON('child.html',data,function(res){
+            for(var i in res){
+                for(var j in res[i]){
+                    var html='<option value="'+i+'">'+res[i][j]+'</option>';
+                    // console.debug(html);
+                    $(html).appendTo('#city');
+                }
+            }
+        });
+    });
+    $('#city').on('change',function(){
+        var data = {pid:$('#city  option:selected').val()};
+        $('#area option:not(:first)').remove();
+        $.getJSON('child.html',data,function(res){
+            for(var i in res){
+                for(var j in res[i]){
+                    var html='<option value="'+i+'">'+res[i][j]+'</option>';
+                    // console.debug(html);
+                    $(html).appendTo('#area');
+                }
+            }
+        });
+    });
+JS
+
+    );
+    $this->registerJs($js);
+    ?>
