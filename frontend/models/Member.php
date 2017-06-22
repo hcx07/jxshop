@@ -11,6 +11,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public $password;//密码明文
     public $re_password;
     public $code;//验证码
+    public $smsCode;//短信验证码
+
     /**
      * @inheritdoc
      */
@@ -37,6 +39,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['tel'], 'string', 'max' => 11],
             [['re_password'],'compare','compareAttribute'=>'password'],
             ['code','captcha'],
+            //验证短信验证码
+            ['smsCode','validateSms']
         ];
     }
 
@@ -60,9 +64,21 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             'password' => '密码：',
             're_password' => '确认密码：',
             'code' => '验证码：',
+            'smsCode' => '短信验证码：',
         ];
     }
 
+    //验证短信验证码
+    public function validateSms()
+    {
+        //缓存里面没有该电话号码
+        $value = Yii::$app->cache->get('tel_'.$this->tel);
+//        var_dump($value);exit;
+        var_dump($this->smsCode != $value);
+        if(!$value || $this->smsCode != $value){
+            $this->addError('smsCode','验证码不正确');
+        }
+    }
 
     /**
      * Finds an identity by the given ID.

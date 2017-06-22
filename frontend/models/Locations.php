@@ -46,8 +46,5 @@ class Locations extends \yii\db\ActiveRecord
             'level' => 'Level',
         ];
     }
-//    public function getLocations()
-//    {
-//        return $this->hasMany(Locations::className(), ['id' => 'parent_id']);
-//    }
+
 }

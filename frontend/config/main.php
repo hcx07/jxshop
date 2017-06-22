@@ -45,6 +45,14 @@ return [
             'rules' => [
             ],
         ],
+        //配置短信组件
+        'sms'=>[
+            'class'=>\frontend\components\Sms::className(),
+            'app_key'=>'24479112',
+            'app_secret'=>'c9a4e23b23113ce97690bbb9af03afe7',
+            'sign_name'=>'何长枭',
+            'template_code'=>'SMS_71510200',
+        ]
 
     ],
     'params' => $params,

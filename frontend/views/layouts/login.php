@@ -31,9 +31,9 @@ use yii\helpers\Html;
 //                    var_dump(Yii::$app->user->isGuest);
                     if (Yii::$app->user->isGuest) {
 //                        echo 123;
-                        echo '[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>]';
+                        echo '[<a href="/user/login.html">登录</a>] [<a href="/user/register.html">免费注册</a>]';
                     }else {
-                        echo '[<a href="loginout.html">注销</a>] （'.Yii::$app->user->identity->username.'）';
+                        echo '[<a href="/user/logout.html">注销</a>] （'.Yii::$app->user->identity->username.'）';
                     }
                     ?>
                 </li>

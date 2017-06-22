@@ -35,6 +35,10 @@
             echo $form->field($model,'re_password')->passwordInput(['class'=>'txt']);
             echo $form->field($model,'email')->textInput(['class'=>'txt']);
             echo $form->field($model,'tel')->textInput(['class'=>'txt']);
+//            短信验证码
+            $button =  \yii\helpers\Html::button('发送验证码',['id'=>'send_sms_button']);
+            echo $form->field($model,'smsCode',['options'=>['class'=>'checkcode'],'template'=>"{label}\n{input}&emsp;&emsp;$button\n{hint}\n{error}"])->textInput(['class'=>'txt']);
+            //验证码
             echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
             echo '<li>
                      <label for="">&nbsp;</label>
@@ -43,54 +47,6 @@
             echo '</ul>';
             \yii\widgets\ActiveForm::end();
             ?>
-<!--            <form action="" method="post">-->
-<!--                <ul>-->
-<!--                    <li>-->
-<!--                        <label for="">用户名：</label>-->
-<!--                        <input type="text" class="txt" name="username" />-->
-<!--                        <p>3-20位字符，可由中文、字母、数字和下划线组成</p>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">密码：</label>-->
-<!--                        <input type="password" class="txt" name="password" />-->
-<!--                        <p>6-20位字符，可使用字母、数字和符号的组合，不建议使用纯数字、纯字母、纯符号</p>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">确认密码：</label>-->
-<!--                        <input type="password" class="txt" name="password" />-->
-<!--                        <p> <span>请再次输入密码</p>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">邮箱：</label>-->
-<!--                        <input type="text" class="txt" name="email" />-->
-<!--                        <p>邮箱必须合法</p>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">手机号码：</label>-->
-<!--                        <input type="text" class="txt" value="" name="tel" id="tel" placeholder=""/>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">验证码：</label>-->
-<!--                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="captcha" disabled="disabled" id="captcha"/> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>-->
-<!---->
-<!--                    </li>-->
-<!--                    <li class="checkcode">-->
-<!--                        <label for="">验证码：</label>-->
-<!--                        <input type="text"  name="checkcode" />-->
-<!--                        <img src="images/checkcode1.jpg" alt="" />-->
-<!--                        <span>看不清？<a href="">换一张</a></span>-->
-<!--                    </li>-->
-<!---->
-<!--                    <li>-->
-<!--                        <label for="">&nbsp;</label>-->
-<!--                        <input type="checkbox" class="chb" checked="checked" /> 我已阅读并同意《用户注册协议》-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <label for="">&nbsp;</label>-->
-<!--                        <input type="submit" value="" class="login_btn" />-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </form>-->
         </div>
         <div class="mobile fl">
             <h3>手机快速注册</h3>
@@ -102,3 +58,27 @@
 <!-- 登录主体部分end -->
 </body>
 </html>
+<?php
+/* @var $this \yii\web\View
+ */
+$url = \yii\helpers\Url::to(['user/send-sms']);
+$this->registerJs(new \yii\web\JsExpression(
+    <<<JS
+    $("#send_sms_button").click(function(){
+        //发送验证码按钮被点击时
+        //手机号
+        var tel = $("#member-tel").val();
+        // console.debug(tel);
+        //AJAX post提交tel参数到 user/send-sms
+        $.post('$url',{tel:tel},function(data){
+            console.debug(data);
+            if(data == 'success'){
+                console.log('短信发送成功');
+                alert('短信发送成功');
+            }else{
+                console.log(data);
+            }
+        });
+    });
+JS
+));

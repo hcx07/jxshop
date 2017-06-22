@@ -10,6 +10,11 @@ use frontend\models\LoginForm;
 use frontend\models\Member;
 use yii\helpers\ArrayHelper;
 
+use Flc\Alidayu\Client;
+use Flc\Alidayu\App;
+use Flc\Alidayu\Requests\AlibabaAliqinFcSmsNumSend;
+use Flc\Alidayu\Requests\IRequest;
+
 class UserController extends \yii\web\Controller
 {
     public $layout = 'login';
@@ -25,11 +30,11 @@ class UserController extends \yii\web\Controller
             $model->last_login_ip=ip2long(\Yii::$app->request->getUserIP());
             $model->last_login_time=time();
             $model->status=1;
-            $this->auth_key = \Yii::$app->security->generateRandomString();
+            $model->auth_key = \Yii::$app->security->generateRandomString();
             $model->save(false);
 //            var_dump($model->getFirstErrors());exit;
             \Yii::$app->session->setFlash('success','注册成功！');
-            return $this->redirect(['index']);
+            return $this->redirect(['/shop/index']);
         }
 
         return $this->render('register',['model'=>$model]);
@@ -49,14 +54,14 @@ class UserController extends \yii\web\Controller
             $usr->save(false);
 //            var_dump($usr->getFirstErrors());exit;
             \Yii::$app->session->setFlash('success','登录成功');
-            return $this->redirect(['index']);
+            return $this->redirect(['/shop/index']);
         }
-        return $this->render('login',['model'=>$model]);
+        return $this->render('/user/login',['model'=>$model]);
     }
     public function actionLogout()
     {
         \Yii::$app->user->logout();
-        return $this->redirect(['login']);
+        return $this->redirect(['/user/login']);
     }
 
     public function actionAddress(){
@@ -139,10 +144,62 @@ class UserController extends \yii\web\Controller
         \Yii::$app->session->setFlash('success','设置成功！');
         return $this->redirect(['address']);
     }
-    //商城首页
-    public function actionIndex()
+
+    //测试验证码
+    public function actionSend(){
+        $config = [
+            'app_key'    => '24479112',
+            'app_secret' => 'c9a4e23b23113ce97690bbb9af03afe7',
+            // 'sandbox'    => true,  // 是否为沙箱环境，默认false
+        ];
+
+// 使用方法一
+        $code=mt_rand(1000,9999);
+        $client = new Client(new App($config));
+        $req    = new AlibabaAliqinFcSmsNumSend;
+
+        $req->setRecNum('18380429355')//给谁发验证码
+            ->setSmsParam([
+                'code' => $code
+            ])
+            ->setSmsFreeSignName('何长枭')
+            ->setSmsTemplateCode('SMS_71510200');
+
+        $resp = $client->execute($req);
+        var_dump($resp);
+    }
+    //短信验证码发送
+    public function actionSendSms()
     {
-        $ones=GoodsCategory::findAll(['depth'=>0]);
-        return $this->render('index',['ones'=>$ones]);
+        //确保上一次发送短信间隔超过1分钟
+        $tel = \Yii::$app->request->post('tel');
+        if(!preg_match('/^1[34578]\d{9}$/',$tel)){
+            echo '电话号码不正确';
+            exit;
+        }
+        $code = rand(1000,9999);
+        $result = \Yii::$app->sms->setNum($tel)->setParam(['code' => $code])->send();
+        if($result){
+            //保存当前验证码 session  mysql  redis  不能保存到cookie
+//            \Yii::$app->session->set('code',$code);
+//            \Yii::$app->session->set('tel_'.$tel,$code);
+            \Yii::$app->cache->set('tel_'.$tel,$code,5*60);
+            echo 'success'.$code;
+        }else{
+            echo '发送失败';
+        }
+    }
+    //邮件发送
+    public function actionEmail(){
+        $result=\Yii::$app->mailer->compose()
+            ->setFrom('756170593@163.com')//发送邮件
+            ->setTo('756170593@qq.com')//接收邮件
+            ->setSubject('邮件测试')//邮件标题
+//            ->setTextBody('Plain text content')
+            ->setHtmlBody('<b>这是一封测试<a href="http://muniao.org">邮件</a></b>')//以html格式发送邮件
+            ->send();
+        var_dump($result);
+
+
     }
 }
