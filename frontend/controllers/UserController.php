@@ -67,29 +67,25 @@ class UserController extends \yii\web\Controller
     public function actionAddress(){
         $model=new Address();
         $model_all=Address::findAll(['user_id'=>\Yii::$app->user->id]);
-        $dizhi=new Locations();
-        $province=ArrayHelper::map(Locations::findAll(['parent_id'=>0]),'id','name');
-        if($model->load(\Yii::$app->request->post())&&$dizhi->load(\Yii::$app->request->post())){
-            if(\Yii::$app->request->post()['default']!=0){
+//        var_dump(\Yii::$app->request->post());;exit;
+        if($model->load(\Yii::$app->request->post())){
+            if(!empty(\Yii::$app->request->post()['default'])){
                 $all=Address::find()->all();
                 foreach ($all as $res){
                     $res->default=0;
                     $res->save();
                 }
+                $model->default=1;
             }
             if($model->validate()){
-                $area=Locations::findOne(['id'=>$dizhi->name]);
-                $city=Locations::findOne(['id'=>$area->parent_id]);
-                $province=Locations::findOne(['id'=>$city->parent_id]);
-                $model->address=$province->name.'-'.$city->name.'-'.$area->name.'-'.$model->address;
+                $model->address=$model['province'].'-'.$model['city'].'-'.$model['county'].'-'.$model->address;
                 $model->user_id=\Yii::$app->user->id;
-                $model->default=1;
                 $model->save();
                 \Yii::$app->session->setFlash('success','添加成功！');
-                return $this->redirect(['address']);
+                return $this->redirect(['/user/address']);
             }
         }
-        return $this->render('address',['model'=>$model,'province'=>$province,'dizhi'=>$dizhi,'model_all'=>$model_all]);
+        return $this->render('address',['model'=>$model,'model_all'=>$model_all]);
     }
     public function actionChild($pid){
         $pid = isset($pid)?$pid-0:0;
@@ -100,29 +96,24 @@ class UserController extends \yii\web\Controller
     public function actionAdderssedit($id){
         $model=Address::findOne(['id'=>$id]);
         $model_all=Address::findAll(['user_id'=>\Yii::$app->user->id]);
-        $dizhi=new Locations();
-        $province=ArrayHelper::map(Locations::findAll(['parent_id'=>0]),'id','name');
-        if($model->load(\Yii::$app->request->post())&&$dizhi->load(\Yii::$app->request->post())){
+        if($model->load(\Yii::$app->request->post())){
             if(\Yii::$app->request->post()['default']!=0){
                 $all=Address::find()->all();
                 foreach ($all as $res){
                     $res->default=0;
                     $res->save();
                 }
+                $model->default=1;
             }
             if($model->validate()){
-                $area=Locations::findOne(['id'=>$dizhi->name]);
-                $city=Locations::findOne(['id'=>$area->parent_id]);
-                $province=Locations::findOne(['id'=>$city->parent_id]);
-                $model->address=$province->name.'-'.$city->name.'-'.$area->name.'-'.$model->address;
+                $model->address=$model['province'].'-'.$model['city'].'-'.$model['county'].'-'.$model->address;
                 $model->user_id=\Yii::$app->user->id;
-                $model->default=1;
                 $model->save();
                 \Yii::$app->session->setFlash('success','添加成功！');
-                return $this->redirect(['address']);
+                return $this->redirect(['/user/address']);
             }
         }
-        return $this->render('address',['model'=>$model,'province'=>$province,'dizhi'=>$dizhi,'model_all'=>$model_all]);
+        return $this->render('address',['model'=>$model,'model_all'=>$model_all]);
     }
     public function actionAdderssdel($id){
         $model=Address::findOne(['id'=>$id]);

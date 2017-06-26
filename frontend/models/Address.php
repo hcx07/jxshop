@@ -16,6 +16,10 @@ use Yii;
 class Address extends \yii\db\ActiveRecord
 {
     public $detail;
+    public $province;
+    public $city;
+    public $county;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +35,7 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             [['user_id','default'], 'integer'],
-            [['name', 'address', 'tel'], 'required'],
+            [['name', 'address', 'tel','province', 'city', 'county'], 'required'],
             [['name'], 'string', 'max' => 10],
             [['address'], 'string', 'max' => 50],
             [['tel'], 'string', 'max' => 20],
@@ -51,6 +55,9 @@ class Address extends \yii\db\ActiveRecord
             'tel' => '电话',
             'detail' => '详细地址',
             'default' => '设为默认地址',
+            'province' => '省',
+            'city' => '市',
+            'county' => '县',
         ];
     }
 }

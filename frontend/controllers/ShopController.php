@@ -4,7 +4,7 @@ use backend\models\GoodsCategory;
 use yii\web\Controller;
 
 class ShopController extends Controller{
-    public $layout = 'login';
+    public $layout = 'shop';
     public function actionIndex()
     {
         $ones=GoodsCategory::findAll(['depth'=>0]);

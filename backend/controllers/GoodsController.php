@@ -159,6 +159,7 @@ class GoodsController extends BackendController
                     $model->save();
                     $action->output['fileUrl'] = $model->path;
                 },
+
             ],
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',

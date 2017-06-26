@@ -15,26 +15,13 @@ class LoginAsset extends AssetBundle
         'style/base.css',
         'style/global.css',
         'style/header.css',
-        'style/login.css',
-        'style/footer.css',
         'style/index.css',
         'style/bottomnav.css',
-        'style/home.css',
-        'style/address.css',
-        'style/goods.css',
-        'style/common.css',
-        'style/jqzoom.css',
-        'style/list.css',
+        'style/footer.css',
     ];
     public $js = [
         'js/header.js',
         'js/index.js',
-        'js/home.js',
-        'js/goods.js',
-        'js/list.js',
-        'js/jqzoom-core.js',
-        'js/cart1.js',
-        'js/cart2.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',

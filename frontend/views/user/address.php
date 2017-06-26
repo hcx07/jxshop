@@ -461,9 +461,13 @@
                 );
                 echo '<ul>';
                 echo $form->field($model,'name')->textInput(['class'=>'txt']);
-                echo $form->field($dizhi,'name')->dropDownList($province,['id'=>'province','prompt'=>'选择省份','class' => 'form-control form-control-inline'])->label('省份');
-                echo $form->field($dizhi,'name')->dropDownList(['0'=>'请选择'],['id'=>'city','prompt'=>'选择城市','inline'=>true,'class' => 'form-control form-control-inline'])->label('城市');
-                echo $form->field($dizhi,'name')->dropDownList(['prompt'=>'请选择区县'],['id'=>'area','prompt'=>'选择区县','inline'=>true,'class' => 'form-control form-control-inline'])->label('区县');
+                ?>
+                <li><label for="">所在地区：</label>
+                <?=$form->field($model,'province',['template' => "{input}",'options'=>['tag'=>false]])->dropDownList([''=>'=选择省=']);?>
+                <?=$form->field($model,'city',['template' => "{input}",'options'=>['tag'=>false]])->dropDownList([''=>'=选择市=']);?>
+                <?=$form->field($model,'county',['template' => "{input}",'options'=>['tag'=>false]])->dropDownList([''=>'=选择县=']);?>
+                </li>
+                <?php
                 echo $form->field($model,'address')->textInput(['class'=>'txt address']);
                 echo $form->field($model,'tel')->textInput(['class'=>'txt']);
 //                echo $form->field($model,'default')->checkbox(['class'=>'check']);
@@ -553,38 +557,65 @@
 <!--	 底部导航 end -->
 </body>
 </html>
-    <?php
-    $js = new \yii\web\JsExpression(
+<?php
+/**
+ * @var $this \yii\web\View
+ */
+$this->registerJsFile('@web/js/address.js');
+$this->registerJs(new \yii\web\JsExpression(
         <<<JS
-    $('#province').on('change',function(){
-        var data = {pid:$('#province  option:selected').val()};
-        $('#city option:not(:first)').remove();
-        $('#area option:not(:first)').remove();
-        $.getJSON('child.html',data,function(res){
-            for(var i in res){
-                for(var j in res[i]){
-                    var html='<option value="'+i+'">'+res[i][j]+'</option>';
-                    // console.debug(html);
-                    $(html).appendTo('#city');
-                }
+    //填充省的数据
+    $(address).each(function(){
+        //console.log(this.name);
+        var option = '<option value="'+this.name+'">'+this.name+'</option>';        
+        $("#address-province").append(option);
+    });
+    //切换（选中）省，读取该省对应的市，更新到市下拉框
+    $("#address-province").change(function(){
+        var province = $(this).val();//获取当前选中的省
+        //console.log(province);
+        //获取当前省对应的市 数据
+        $(address).each(function(){
+            if(this.name == province){
+                var option = '<option value="">=请选择市=</option>';
+                $(this.city).each(function(){
+                    option += '<option value="'+this.name+'">'+this.name+'</option>';     
+                });
+                $("#address-city").html(option);
             }
         });
+        //将县的下拉框数据清空
+        $("#address-county").html('<option value="">=请选择县=</option>');
     });
-    $('#city').on('change',function(){
-        var data = {pid:$('#city  option:selected').val()};
-        $('#area option:not(:first)').remove();
-        $.getJSON('child.html',data,function(res){
-            for(var i in res){
-                for(var j in res[i]){
-                    var html='<option value="'+i+'">'+res[i][j]+'</option>';
-                    // console.debug(html);
-                    $(html).appendTo('#area');
-                }
+    //切换（选中）市，读取该市 对应的县，更新到县下拉框
+    $("#address-city").change(function(){
+        var city = $(this).val();//当前选中的城市
+        $(address).each(function(){
+            if(this.name == $("#address-province").val()){
+                $(this.city).each(function(){
+                    if(this.name == city){
+                        //遍历到当前选中的城市了
+                        var option = '<option value="">=请选择县=</option>';
+                        $(this.area).each(function(i,v){
+                            option += '<option value="'+v+'">'+v+'</option>';  
+                        });
+                        $("#address-county").html(option);
+                    }
+                });
             }
         });
     });
 JS
 
-    );
-    $this->registerJs($js);
-    ?>
+));
+$js = '';
+if($model->province){
+    $js .= '$("#address-province").val("'.$model->province.'");';
+}
+if($model->city){
+    $js .= '$("#address-province").change();$("#address-city").val("'.$model->city.'");';
+}
+if($model->county){
+    $js .= '$("#address-city").change();$("#address-county").val("'.$model->county.'");';
+}
+$this->registerJs($js);

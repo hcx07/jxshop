@@ -3,18 +3,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>商品列表页</title>
-
 </head>
 <body>
-
-	
+<?php
+$this->registerCssFile('@web/style/list.css');
+$this->registerCssFile('@web/style/common.css');
+$this->registerJsFile('@web/js/list.js',['depends'=>\yii\web\JqueryAsset::className()]);
+?>
 	<div style="clear:both;"></div>
 
 	<!-- 头部 start -->
 	<div class="header w1210 bc mt15">
 		<!-- 头部上半部分 start 包括 logo、搜索、用户中心和购物车结算 -->
 		<div class="logo w1210">
-			<h1 class="fl"><a href="index.html"><img src="images/logo.png" alt="京西商城"></a></h1>
+			<h1 class="fl"><a href="/shop/index.html"><img src="/images/logo.png" alt="京西商城"></a></h1>
 			<!-- 头部搜索 start -->
 			<div class="search fl">
 				<div class="search_form">
@@ -69,9 +71,9 @@
 						<div class="viewlist mt10">
 							<h3>最近浏览的商品：</h3>
 							<ul>
-								<li><a href=""><img src="images/view_list1.jpg" alt="" /></a></li>
-								<li><a href=""><img src="images/view_list2.jpg" alt="" /></a></li>
-								<li><a href=""><img src="images/view_list3.jpg" alt="" /></a></li>
+								<li><a href=""><img src="/images/view_list1.jpg" alt="" /></a></li>
+								<li><a href=""><img src="/images/view_list2.jpg" alt="" /></a></li>
+								<li><a href=""><img src="/images/view_list3.jpg" alt="" /></a></li>
 							</ul>
 						</div>
 					</dd>
@@ -109,270 +111,24 @@
 				</div>
 				
 				<div class="cat_bd none">
-					
-					<div class="cat item1">
-						<h3><a href="">图像、音像、数字商品</a> <b></b></h3>
-						<div class="cat_detail none">
-							<dl class="dl_1st">
-								<dt><a href="">电子书</a></dt>
-								<dd>
-									<a href="">免费</a>
-									<a href="">小说</a>
-									<a href="">励志与成功</a>
-									<a href="">婚恋/两性</a>
-									<a href="">文学</a>
-									<a href="">经管</a>
-									<a href="">畅读VIP</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">数字音乐</a></dt>
-								<dd>
-									<a href="">通俗流行</a>
-									<a href="">古典音乐</a>
-									<a href="">摇滚说唱</a>
-									<a href="">爵士蓝调</a>
-									<a href="">乡村民谣</a>
-									<a href="">有声读物</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">音像</a></dt>
-								<dd>
-									<a href="">音乐</a>
-									<a href="">影视</a>
-									<a href="">教育音像</a>
-									<a href="">游戏</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">文艺</a></dt>
-								<dd>
-									<a href="">小说</a>
-									<a href="">文学</a>
-									<a href="">青春文学</a>
-									<a href="">传纪</a>
-									<a href="">艺术</a>
-									<a href="">经管</a>
-									<a href="">畅读VIP</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">人文社科</a></dt>
-								<dd>
-									<a href="">历史</a>
-									<a href="">心理学</a>
-									<a href="">政治/军事</a>
-									<a href="">国学/古籍</a>
-									<a href="">哲学/宗教</a>
-									<a href="">社会科学</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">经管励志</a></dt>
-								<dd>
-									<a href="">经济</a>
-									<a href="">金融与投资</a>
-									<a href="">管理</a>
-									<a href="">励志与成功</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">人文社科</a></dt>
-								<dd>
-									<a href="">历史</a>
-									<a href="">心理学</a>
-									<a href="">政治/军事</a>
-									<a href="">国学/古籍</a>
-									<a href="">哲学/宗教</a>
-									<a href="">社会科学</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">生活</a></dt>
-								<dd>
-									<a href="">烹饪/美食</a>
-									<a href="">时尚/美妆</a>
-									<a href="">家居</a>
-									<a href="">娱乐/休闲</a>
-									<a href="">动漫/幽默</a>
-									<a href="">体育/运动</a>
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">科技</a></dt>
-								<dd>
-									<a href="">科普</a>
-									<a href="">建筑</a>
-									<a href="">IT</a>
-									<a href="">医学</a>
-									<a href="">工业技术</a>
-									<a href="">电子/通信</a>
-									<a href="">农林</a>
-									<a href="">科学与自然</a>
-								</dd>
-							</dl>
-
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">家用电器</a><b></b></h3>
-						<div class="cat_detail">
-							<dl class="dl_1st">
-								<dt><a href="">大家电</a></dt>
-								<dd>
-									<a href="">平板电视</a>
-									<a href="">空调</a>
-									<a href="">冰箱</a>
-									<a href="">洗衣机</a>
-									<a href="">热水器</a>
-									<a href="">DVD</a>
-									<a href="">烟机/灶具</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">生活电器</a></dt>
-								<dd>
-									<a href="">取暖器</a>
-									<a href="">加湿器</a>
-									<a href="">净化器</a>
-									<a href="">饮水机</a>
-									<a href="">净水设备</a>
-									<a href="">吸尘器</a>
-									<a href="">电风扇</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">厨房电器</a></dt>
-								<dd>
-									<a href="">电饭煲</a>
-									<a href="">豆浆机</a>
-									<a href="">面包机</a>
-									<a href="">咖啡机</a>
-									<a href="">微波炉</a>
-									<a href="">电磁炉</a>
-									<a href="">电水壶</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">个护健康</a></dt>
-								<dd>
-									<a href="">剃须刀</a>
-									<a href="">电吹风</a>
-									<a href="">按摩器</a>
-									<a href="">足浴盆</a>
-									<a href="">血压计</a>
-									<a href="">体温计</a>
-									<a href="">血糖仪</a>						
-								</dd>
-							</dl>
-
-							<dl>
-								<dt><a href="">五金家装</a></dt>
-								<dd>
-									<a href="">灯具</a>
-									<a href="">LED灯</a>
-									<a href="">水槽</a>
-									<a href="">龙头</a>
-									<a href="">门铃</a>
-									<a href="">电器开关</a>
-									<a href="">插座</a>						
-								</dd>
-							</dl>
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">手机、数码</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">电脑、办公</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-					
-					<div class="cat">
-						<h3><a href="">家局、家具、家装、厨具</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-					
-					<div class="cat">
-						<h3><a href="">服饰鞋帽</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-					
-					<div class="cat">
-						<h3><a href="">个护化妆</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-					
-					<div class="cat">
-						<h3><a href="">礼品箱包、钟表、珠宝</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">运动健康</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">汽车用品</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-					
-					<div class="cat">
-						<h3><a href="">母婴、玩具乐器</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">食品饮料、保健食品</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
-					<div class="cat">
-						<h3><a href="">彩票、旅行、充值、票务</a><b></b></h3>
-						<div class="cat_detail none">
-							
-						</div>
-					</div>
-
+                    <?php foreach ($ones as $k=>$one):?>
+                        <div class="cat <?=$k==0?"item1":""?>">
+                            <h3><a href="/goods/one?id=<?=$one->id?>"><?php echo $one->name?></a> <b></b></h3>
+                            <div class="cat_detail">
+                                <?php foreach ($one->children as $two):?>
+                                    <dl class="dl_1st">
+                                        <dt><a href="/goods/two?id=<?=$two->id?>"><?php echo $two->name?></a></dt>
+                                        <dd>
+                                            <?php foreach ($two->children as $three):?>
+                                                <a href="/goods/list.html?id=<?=$three->id?>"><?php echo $three->name?></a>
+                                            <?php endforeach;?>
+                                        </dd>
+                                    </dl>
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                    <?php endforeach;?>
 				</div>
-
 			</div>
 			<!--  商品分类部分 end--> 
 
@@ -470,7 +226,7 @@
 					<ul>
 						<li>
 							<dl>
-								<dt><a href=""><img src="images/list_hot1.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/list_hot1.jpg" alt="" /></a></dt>
 								<dd><a href="">美即流金丝语悦白美颜新年装4送3</a></dd>
 								<dd><strong>￥777.50</strong></dd>
 							</dl>
@@ -478,7 +234,7 @@
 
 						<li>
 							<dl>
-								<dt><a href=""><img src="images/list_hot2.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/list_hot2.jpg" alt="" /></a></dt>
 								<dd><a href="">领券满399减50 金斯利安多维片</a></dd>
 								<dd><strong>￥239.00</strong></dd>
 							</dl>
@@ -486,7 +242,7 @@
 
 						<li class="last">
 							<dl>
-								<dt><a href=""><img src="images/list_hot3.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/list_hot3.jpg" alt="" /></a></dt>
 								<dd><a href="">皮尔卡丹pierrecardin 男士长...</a></dd>
 								<dd><strong>￥1240.50</strong></dd>
 							</dl>
@@ -512,12 +268,12 @@
 				<h2><a href="">清空</a><strong>最近浏览过的商品</strong></h2>
 				<div class="leftbar_wrap">
 					<dl>
-						<dt><a href=""><img src="images/hpG4.jpg" alt="" /></a></dt>
+						<dt><a href=""><img src="/images/hpG4.jpg" alt="" /></a></dt>
 						<dd><a href="">惠普G4-1332TX 14英寸笔记...</a></dd>
 					</dl>
 
 					<dl class="last">
-						<dt><a href=""><img src="images/crazy4.jpg" alt="" /></a></dt>
+						<dt><a href=""><img src="/images/crazy4.jpg" alt="" /></a></dt>
 						<dd><a href="">直降200元！TCL正1.5匹空调</a></dd>
 					</dl>
 				</div>
@@ -536,7 +292,7 @@
 					<ul>
 						<li>
 							<dl>
-								<dt><a href=""><img src="images/hpG4.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/hpG4.jpg" alt="" /></a></dt>
 								<dd class="name"><a href="">惠普G4-1332TX 14英寸笔记本电脑 （i5-2450M 2G 5</a></dd>
 								<dd class="price">特价：<strong>￥2999.00</strong></dd>
 								<dd class="buy"><span>立即抢购</span></dd>
@@ -545,7 +301,7 @@
 
 						<li>
 							<dl>
-								<dt><a href=""><img src="images/list_hot3.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/list_hot3.jpg" alt="" /></a></dt>
 								<dd class="name"><a href="">ThinkPad E42014英寸笔记本电脑</a></dd>
 								<dd class="price">特价：<strong>￥4199.00</strong></dd>
 								<dd class="buy"><span>立即抢购</span></dd>
@@ -554,7 +310,7 @@
 
 						<li>
 							<dl>
-								<dt><a href=""><img src="images/acer4739.jpg" alt="" /></a></dt>
+								<dt><a href=""><img src="/images/acer4739.jpg" alt="" /></a></dt>
 								<dd class="name"><a href="">宏碁AS4739-382G32Mnkk 14英寸笔记本电脑</a></dd>
 								<dd class="price">特价：<strong>￥2799.00</strong></dd>
 								<dd class="buy"><span>立即抢购</span></dd>
@@ -661,59 +417,17 @@
 			<!-- 商品列表 start-->
 			<div class="goodslist mt10">
 				<ul>
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods1.jpg" alt="" /></a></dt>
-							<dd><a href="">清华同方精锐X2 台式电脑（双核E3500 2G 500G DVD 键鼠）带20英寸显示器</a></dt>
-							<dd><strong>￥2399.00</strong></dt>
-							<dd><a href=""><em>已有10人评价</em></a></dt>
-						</dl>
-					</li>
+                    <?php foreach ($model as $list):?>
+                        <li>
+                            <dl>
+                                <dt><a href="/goods/goods.html?id=<?=$list->id?>"><?=\yii\helpers\Html::img('http://admin.jx.com/'.$list->logo)?></a></dt>
+                                <dd><a href="/goods/goods.html?id=<?=$list->id?>"><?=$list->name?></a></dt>
+                                <dd><strong>￥<?=$list->shop_price?></strong></dt>
+                                <dd><a href="/goods/goods.html?id=<?=$list->id?>"><em>已有10人评价</em></a></dt>
+                            </dl>
+                        </li>
+                    <?php endforeach;?>
 
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods2.jpg" alt="" /></a></dt>
-							<dd><a href="">富士通LH531 14.1英寸笔记本电脑（i3-2350M 2G 320G 第二代核芯显卡 D刻</a></dd>
-							<dd><strong>￥2999.00</strong></dd>
-							<dd><a href=""><em>已有5人评价</em></a></dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods3.jpg" alt="" /></a></dt>
-							<dd><a href="">三星Galaxy Tab P6800 7.7英寸 3G手机版 蓝牙3.0 魔丽屏 金属银</a></dd>
-							<dd><strong>￥4699.00</strong></dd>
-							<dd><a href=""><em>已有34人评价</em></a></dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods4.jpg" alt="" /></a></dt>
-							<dd><a href="">宏碁AS4739-382G32Mnkk 14英寸笔记本电脑（i3-380M 2G 320G D刻 LED背</a></dd>
-							<dd><strong>￥2799.00</strong></dd>
-							<dd><a href=""><em>已有17人评价</em></a></dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods5.jpg" alt="" /></a></dt>
-							<dd><a href="">ThinkPad E42014英寸笔记本电脑（i5-2450M 2G 320G 蓝牙 摄像头）</a></dd>
-							<dd><strong>￥4199.00</strong></dd>
-							<dd><a href=""><em>已有8人评价</em></a></dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt><a href=""><img src="images/goods6.jpg" alt="" /></a></dt>
-							<dd><a href="">惠普G4-1332TX 14英寸笔记本电脑 （i5-2450M 2G 500G 7450M 1G独显 D刻</a></dd>
-							<dd><strong>￥2999.00</strong></dd>
-							<dd><a href=""><em>已有22人评价</em></a></dd>
-						</dl>
-					</li>
 				</ul>
 			</div>
 			<!-- 商品列表 end-->
@@ -804,10 +518,3 @@
 		</div>
 	</div>
 	<!-- 底部导航 end -->
-
-	<div style="clear:both;"></div>
-
-
-
-</body>
-</html>
