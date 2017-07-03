@@ -22,7 +22,6 @@ class UserController extends \yii\web\Controller
     public function actionRegister()
     {
         $model = new Member();
-//        var_dump(\Yii::$app->request->post());exit;
         if($model->load(\Yii::$app->request->post()) && $model->validate()){
 //            var_dump($model->code);exit;
             $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password);

@@ -8,7 +8,7 @@
 <?php
 $this->registerCssFile('@web/style/list.css');
 $this->registerCssFile('@web/style/common.css');
-$this->registerJsFile('@web/js/list.js',['depends'=>\yii\web\JqueryAsset::className()]);
+$this->registerJsFile('@web/js/listF.js',['depends'=>\yii\web\JqueryAsset::className()]);
 ?>
 	<div style="clear:both;"></div>
 
@@ -21,8 +21,8 @@ $this->registerJsFile('@web/js/list.js',['depends'=>\yii\web\JqueryAsset::classN
 			<div class="search fl">
 				<div class="search_form">
 					<div class="form_left fl"></div>
-					<form action="" name="serarch" method="get" class="fl">
-						<input type="text" class="txt" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
+					<form action="/goods/search.html" name="serarch" method="get" class="fl">
+						<input type="text" class="txt" name="keyword" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
 					</form>
 					<div class="form_right fl"></div>
 				</div>

@@ -1,3 +1,7 @@
+<?php
+$this->registerCssFile('@web/style/login.css');
+?>
+
 <!-- 页面头部 start -->
 <div class="header w990 bc mt15">
     <div class="logo w990">

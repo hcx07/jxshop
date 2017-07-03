@@ -34,11 +34,12 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password','re_password'], 'string', 'max' => 100],
             [['email'], 'email'],
-            [['password'], 'required','message'=>'6-20位字符，可使用字母、数字和符号的组合，不建议使用纯数字、纯字母、纯符号'],
+//            [['password'], 'required','message'=>'6-20位字符，可使用字母、数字和符号的组合，不建议使用纯数字、纯字母、纯符号'],
+            [['password'], 'string'],
             [['re_password'], 'string','message'=>'请再次输入密码'],
             [['tel'], 'string', 'max' => 11],
             [['re_password'],'compare','compareAttribute'=>'password'],
-            ['code','captcha'],
+//            ['code','captcha'],
             //验证短信验证码
             ['smsCode','validateSms']
         ];
