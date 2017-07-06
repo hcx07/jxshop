@@ -2,7 +2,6 @@
 return [
     'adminEmail' => 'admin@example.com',
     'wechat'=>[
-        [
             /**
              * Debug 模式，bool 值：true/false
              *
@@ -36,8 +35,8 @@ return [
              * callback：OAuth授权完成后的回调页地址
              */
             'oauth' => [
-                'scopes'   => ['snsapi_userinfo'],
-                'callback' => '/examples/oauth_callback.php',
+                'scopes'   => ['snsapi_base'],
+                'callback' => 'http://jxshop.muniao.org/wechat/callback.html',
             ],
             /**
              * 微信支付
@@ -62,5 +61,4 @@ return [
                 //'verify' => false, // 关掉 SSL 认证（强烈不建议！！！）
             ],
         ]
-    ]
 ];
